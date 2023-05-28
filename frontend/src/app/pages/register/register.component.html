@@ -1,0 +1,100 @@
+<app-loading></app-loading>
+<div class="top bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <div class="title">Registro de usuario</div>
+            </div>
+            <div class="col-4" style="text-align: right">
+                <button type="button" class="btn btn-link text-white" routerLink="/login"> ⇦ Volver</button>
+            </div>
+        </div>
+        <div class="content">
+            <form (ngSubmit)="register()" [formGroup]="register_form">
+                <div class="user-details">
+                    <div class="input-box">
+                        <span class="details">Nombre</span>
+                        <input type="text" class="form-control" formControlName="nombre" placeholder="Ingresa su nombre"
+                            required>
+                        <div class="errors" *ngIf="nombre?.invalid && (nombre?.dirty || nombre?.touched)">
+                            <span *ngIf="nombre?.errors?.['required']">
+                                <small>El nombre es requerido.</small>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Correo</span>
+                        <input type="email" class="form-control" formControlName="email" placeholder="Ingresa su email"
+                            required>
+                        <div class="errors" *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+                            <span *ngIf="email?.errors?.['required']">
+                                <small>El correo es requerido</small>
+                            </span>
+                            <span
+                                *ngIf="(email?.dirty || email?.touched) && email?.invalid && email?.errors?.['pattern']">
+                                <small>Ingrese un email válido.</small>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Contraseña</span>
+                        <input type="password" class="form-control" formControlName="password"
+                            placeholder="Ingresa su contraseña" required>
+                        <div class="errors" *ngIf="password?.invalid && (password?.dirty || password?.touched)">
+                            <span *ngIf="password?.errors?.['minlength']">
+                                <small>La contraseña debe tener al menos 6 caracteres.</small>
+                            </span>
+                            <span *ngIf="password?.errors?.['required']">
+                                <small>Este campo es requerido.</small>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Confirmar contraseña</span>
+                        <input type="password" class="form-control" formControlName="password_confirmation"
+                            placeholder="Confirma tu contraseña" required>
+                        <div class="errors"
+                            *ngIf="password_confirmation?.invalid && (password_confirmation?.dirty || password_confirmation?.touched)">
+                            <span *ngIf="password_confirmation?.errors?.['minlength']">
+                                <small>La contraseña debe tener al menos 6 caracteres.</small>
+                            </span>
+                            <span *ngIf="password_confirmation?.errors?.['required']">
+                                <small>Este campo es requerido.</small>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-details">
+                    <input type="radio" formControlName="tipo_suscripcion" value="gratis" name="tipo_suscripcion"
+                        id="dot-1">
+                    <input type="radio" formControlName="tipo_suscripcion" value="4" name="tipo_suscripcion" id="dot-2">
+                    <input type="radio" formControlName="tipo_suscripcion" value="8" name="tipo_suscripcion" id="dot-3">
+                    <span class="profile-title">Seleccione su plan</span>
+                    <div class="category">
+                        <label for="dot-1">
+                            <span class="dot one"></span>
+                            <span class="gender">Gratis</span>
+                        </label>
+                        <label for="dot-2">
+                            <span class="dot two"></span>
+                            <span class="gender">4 perfiles</span>
+                        </label>
+                        <label for="dot-3">
+                            <span class="dot three"></span>
+                            <span class="gender">8 perfiles</span>
+                        </label>
+                    </div>
+                    <div class="errors"
+                        *ngIf="tipo_suscripcion?.invalid && (tipo_suscripcion?.dirty || tipo_suscripcion?.touched)">
+                        <span *ngIf="tipo_suscripcion?.errors?.['required']">
+                            <small>El suscripción es requerido.</small>
+                        </span>
+                    </div>
+                </div>
+                <div class="button">
+                    <button type="submit" [disabled]="!register_form.valid">Registrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

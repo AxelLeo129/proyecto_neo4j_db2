@@ -1,0 +1,407 @@
+<app-loading></app-loading>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand">
+            <img src="../../../assets/logo_color.png" alt="" width="30" height="24"
+                class="d-inline-block align-text-top">
+            Espotifai
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/users">Usuarios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/films">Peliculas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/actors">Actores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/directors">Directores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" routerLink="/admin/reports">Reportes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/simulation">Simulacion</a>
+                </li>
+            </ul>
+            <a class="nav-link text-light" routerLink="/login">Logout <i class="bi bi-box-arrow-right"></i></a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <p class="h1">Modulo de reporteria</p>
+    <!-- Tabla query 1 -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <p class="h3">El top 10 de géneros de contenido más visto, y los minutos consumidos para un rango de fechas
+                dado</p>
+            <div class="row">
+                <div class="col">
+                    <label for="fechai_tb1">Ingresar fecha inicial (YYYY-MM-DD)</label>
+                    <input class="form-control" type="text" id="fecha_inicio_tabla1" name="fechai_tb1">
+                </div>
+                <div class="col">
+                    <label for="fechaf_tb1">Ingresar fecha final (YYYY-MM-DD)</label>
+                    <input class="form-control" type="text" id="fecha_final_tabla1" name="fechaf_tb1">
+                </div>
+            </div><br>
+            <div>
+                <button (click)="sendQ1()" class="btn btn-warning">
+                    Enviar fechas
+                    <i class="bi bi-send"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover" id="dataTable1" width="100%"
+                    cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Categoria</th>
+                            <th>Minutos vistos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let q1 of query1">
+                            <td>{{q1.nombre}}</td>
+                            <td>{{q1.minutos_cons}}</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Tabla query 2  -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <p class="h3">Cantidad de reproducciones por cada categoría, por tipo de cuenta para un rango de fechas
+                dado.</p>
+            <div class="row">
+                <div class="col">
+                    <label for="fechai_tb2">Ingresar fecha inicial (YYYY-MM-DD)</label>
+                    <input class="form-control" type="text" id="fecha_inicio_tabla2" name="fechai_tb2">
+                </div>
+                <div class="col">
+                    <label for="fechaf_tb2">Ingresar fecha final (YYYY-MM-DD)</label>
+                    <input class="form-control" type="text" id="fecha_final_tabla2" name="fechaf_tb2">
+                </div>
+            </div><br>
+            <div>
+                <button (click)="sendQ2()" class="btn btn-warning">
+                    Enviar fechas
+                    <i class="bi bi-send"></i>
+                </button>
+            </div>
+
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover" id="dataTable2" width="100%"
+                    cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Categoria</th>
+                            <th>Tipo de cuenta</th>
+                            <th>Cantidad de reproducciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let q2 of query2">
+                            <td>{{q2.nombre}}</td>
+                            <td>{{q2.tipo}}</td>
+                            <td>{{q2.reprod}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <!-- Tabla query 3 (actores) -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <p class="h3">El top 10 de los actores principales de las películas que los perfiles estándar
+                y avanzados han visto.</p>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover" id="dataTable3" width="100%"
+                    cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Veces visto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let q3 of query3">
+                            <td>{{q3.nombre}}</td>
+                            <td>{{q3.visto}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <!-- Tabla query 3 (directores) -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <p class="h3">El top 10 de los directores de las películas que los perfiles estándar
+                y avanzados han visto.</p>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover" id="dataTable4" width="100%"
+                    cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Veces visto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let q3_2 of query3_2">
+                            <td>{{q3_2.nombre}}</td>
+                            <td>{{q3_2.visto}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <!-- Tabla query 4 -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <p class="h3">La cantidad de cuentas avanzadas se han creado en los últimos 6 meses.</p>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover" id="dataTable5" width="100%"
+                    cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let q4 of query4">
+                            <td>{{q4.count}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <!-- Tabla query 5 -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <p class="h3">Para una fecha específica, ¿cuál es la hora pico donde el servicio es más utilizado?.</p>
+            <div class="row">
+                <div class="col-6">
+                    <label for="fecha_tb5">Ingresar fecha (YYYY-MM-DD)</label>
+                    <input class="form-control" type="text" id="fecha_tabla5" name="fecha_tb5">
+                </div>
+            </div>
+            <br>
+            <div>
+                <button (click)="sendQ5()" class="btn btn-warning">
+                    Enviar fecha
+                    <i class="bi bi-send"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover" id="dataTable6" width="100%"
+                    cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Hora pico</th>
+                            <th>Total visualizaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let q5 of query5">
+                            <td>{{q5.hora}}</td>
+                            <td>{{q5.visualizaciones}}</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-------------------------------------------------------------- PARTE 2-------------------------------------------------->
+    <h2>
+        Reportería parte 2
+    </h2>
+    <!-- Tabla query 1 -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <p class="h3">Top 5 administradores con más modificaciones.</p>
+            <div class="row">
+                <div class="col">
+                    <label for="fechai_tb2">Ingresar fecha inicial (YYYY-MM-DD)</label>
+                    <input class="form-control" type="text" id="fecha_inicio_tabla2" name="fechai_tb2">
+                </div>
+                <div class="col">
+                    <label for="fechaf_tb2">Ingresar fecha final (YYYY-MM-DD)</label>
+                    <input class="form-control" type="text" id="fecha_final_tabla2" name="fechaf_tb2">
+                </div>
+            </div><br>
+            <div>
+                <button (click)="sendQ2()" class="btn btn-warning">
+                    Enviar fechas
+                    <i class="bi bi-send"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover" id="dataTable5" width="100%"
+                    cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Busqueda</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let q4 of query4">
+                            <td></td>
+                            <td>{{q4.count}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Nueva query 2 -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <p class="h3">Top 5 de contenido visto cada hora de 9am a 1am</p>
+            <div class="row">
+                <div class="col-6">
+                    <label for="fecha_tabla_entrega2_1">Ingresar mes (numero del 1 al 12)</label>
+                    <input class="form-control" type="text" id="fecha_tabla_entrega2_1" name="fecha_tabla_entrega2_1">
+                </div>
+            </div>
+            <br>
+            <div>
+                <button (click)="sendNewQuery1()" class="btn btn-warning">
+                    Enviar fecha
+                    <i class="bi bi-send"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover" id="dataTable6" width="100%"
+                    cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Titulo</th>
+                            <th>Tiempo visualizado</th>
+                            <th>Posicion</th>
+                            <th>Hora</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let nq1 of newQuery1">
+                            <td>{{nq1.movie_title}}</td>
+                            <td>{{nq1.tiempo_visto}}</td>
+                            <td>{{nq1.s_position}}</td>
+                            <td>{{nq1.hora}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Nueva query 3 -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <p class="h3">Top 10 de palabras buscadas.</p>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover" id="dataTable5" width="100%"
+                    cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Término</th>
+                            <th>Veces Buscada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let nq2 of newQuery2">
+                            <td>{{nq2.palabra_clave}}</td>
+                            <td>{{nq2.veces_buscada}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nueva query 4 -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <p class="h3">El top 20 de películas que comenzaron a verse pero que llevan más de 20 días sin
+                finalizarse, para un rango de fechas dado.</p>
+            <div class="row">
+                <div class="col">
+                    <label for="fecha_inicio_tabla_new_q4_1">Ingresar fecha inicial (YYYY-MM-DD)</label>
+                    <input class="form-control" type="text" id="fecha_inicio_tabla_new_q4_1" name="fecha_inicio_tabla_new_q4_1">
+                </div>
+                <div class="col">
+                    <label for="fecha_inicio_tabla_new_q4_2">Ingresar fecha final (YYYY-MM-DD)</label>
+                    <input class="form-control" type="text" id="fecha_inicio_tabla_new_q4_2" name="fecha_inicio_tabla_new_q4_2">
+                </div>
+            </div><br>
+            <div>
+                <button (click)="sendNewQuery4()" class="btn btn-warning">
+                    Enviar fechas
+                    <i class="bi bi-send"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover" id="dataTable2" width="100%"
+                    cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Titulo</th>
+                            <th>Veces abandonada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let nq4 of newQuery4">
+                            <td>{{nq4.id_pelicula}}</td>
+                            <td>{{nq4.titulo_pelicula}}</td>
+                            <td>{{nq4.veces_dejada}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

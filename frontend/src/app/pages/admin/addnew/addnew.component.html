@@ -1,0 +1,113 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand">
+            <img src="../../../assets/logo_color.png" alt="" width="30" height="24"
+                class="d-inline-block align-text-top">
+            Espotifai
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/users">Usuarios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" routerLink="/admin/films">Peliculas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/actors">Actores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/directors">Directores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/anuncios">Anuncios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/reports">Reportes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/simulation">Simulacion</a>
+                </li>
+            </ul>
+            <a class="nav-link text-light" routerLink="/login">Logout <i class="bi bi-box-arrow-right"></i></a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <p class="h1">{{title}} nuevo entretenimiento</p>
+    <form (ngSubmit)="submit()" [formGroup]="actor_form">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Titulo</label>
+            <input formControlName="nombre" class="form-control" placeholder="Nombre">
+            <div class="errors" *ngIf="nombre?.invalid && (nombre?.dirty || nombre?.touched)">
+                <span *ngIf="nombre?.errors?.['required']">
+                    <small>El nombre es requerido.</small>
+                </span>
+            </div>
+        </div><br>
+        <div class="form-group">
+            <label>Descripcion</label>
+            <textarea formControlName="descripcion" class="form-control" rows="3"></textarea>
+            <div class="errors" *ngIf="descripcion?.invalid && (descripcion?.dirty || descripcion?.touched)">
+                <span *ngIf="descripcion?.errors?.['required']">
+                    <small>La descripcion es requerida.</small>
+                </span>
+            </div>
+        </div><br>
+        <div class="form-group">
+            <label>Director</label>
+            <select formControlName="id_director" class="form-select">
+                <option value="" disabled selected>Selecciona un director</option>
+                <option *ngFor="let d of directors" [ngValue]="d.id">{{d.nombre}}</option>
+            </select>
+            <div class="errors" *ngIf="id_director?.invalid && (id_director?.dirty || id_director?.touched)">
+                <span *ngIf="id_director?.errors?.['required']">
+                    <small>El director es requerido.</small>
+                </span>
+            </div>
+        </div><br>
+        <div class="form-group">
+            <label>Fecha de estreno</label>
+            <input formControlName="fecha_estreno" class="form-control" placeholder="Nombre" type="date">
+            <div class="errors" *ngIf="fecha_estreno?.invalid && (fecha_estreno?.dirty || fecha_estreno?.touched)">
+                <span *ngIf="fecha_estreno?.errors?.['required']">
+                    <small>La fecha de estreno es requerida.</small>
+                </span>
+            </div>
+        </div><br>
+        <div class="form-group">
+            <label>Duracion</label>
+            <input formControlName="duracion" class="form-control" placeholder="Nombre">
+            <div class="errors" *ngIf="duracion?.invalid && (duracion?.dirty || duracion?.touched)">
+                <span *ngIf="duracion?.errors?.['required']">
+                    <small>La duración es requerida.</small>
+                </span>
+            </div>
+        </div><br>
+        <div class="form-group">
+            <label>Tipo</label><br>
+            <input type="radio" value="Pelicula" formControlName="tipo"> Pelicula <br>
+            <input type="radio" value="Serie" formControlName="tipo"> Serie
+            <div class="errors" *ngIf="tipo?.invalid && (tipo?.dirty || tipo?.touched)">
+                <span *ngIf="tipo?.errors?.['required']">
+                    <small>Debe seleccionar un tipo obligatoriamente.</small>
+                </span>
+            </div>
+        </div><br>
+        <div class="form-group">
+            <label>Link de video</label>
+            <input formControlName="link_video" class="form-control" placeholder="Nombre">
+            <div class="errors" *ngIf="link_video?.invalid && (link_video?.dirty || link_video?.touched)">
+                <span *ngIf="link_video?.errors?.['required']">
+                    <small>El link es requerido.</small>
+                </span>
+            </div>
+        </div><br>
+        <button type="submit" class="btn btn-primary" [disabled]="!actor_form.valid">Submit</button>
+    </form>
+</div>

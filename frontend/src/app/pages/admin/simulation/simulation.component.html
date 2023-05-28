@@ -1,0 +1,87 @@
+<app-loading></app-loading>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand">
+            <img src="../../../assets/logo_color.png" alt="" width="30" height="24"
+                class="d-inline-block align-text-top">
+            Espotifai
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/users">Usuarios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/films">Peliculas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/actors">Actores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/directors">Directores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/reports">Reportes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" routerLink="/admin/simulation">Simulacion</a>
+                </li>
+            </ul>
+            <a class="nav-link text-light" routerLink="/login">Logout <i class="bi bi-box-arrow-right"></i></a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <p class="h3">Simulación de visualizaciones.</p>
+            <div class="row">
+                <div class="col">
+                    <label for="fecha_inicio_tabla1">Ingresar fecha de simulación (YYYY-MM-DD)</label>
+                    <input class="form-control" type="text" id="fecha_inicio_tabla2" name="fecha_inicio_tabla1">
+                </div>
+                <div class="col">
+                    <label for="cantidad">Ingresar cantidad de visualizaciones a agregar</label>
+                    <input class="form-control" type="text" name="fecha_inicio_tabla1">
+                </div>
+            </div><br>
+            <div>
+                <button (click)="sendQ1()" class="btn btn-warning">
+                    Simular
+                    <i class="bi bi-cpu-fill"></i>
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <h3>
+        Bitacora de actividades en aplicación
+    </h3>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable6" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Usuario</th>
+                        <th>Tabla</th>
+                        <th>Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let a of bitacora">
+                        <td>{{a.fecha}}</td>
+                        <td>{{a.nombre}}</td>
+                        <td>{{a.tabla}}</td>
+                        <td>{{a.accion}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

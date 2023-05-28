@@ -1,0 +1,122 @@
+<app-loading></app-loading>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+      <img src="../../../assets/logo_color.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
+      Espotifai
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/favs">Favoritos</a>
+        </li>
+      </ul>
+      <a class="nav-link text-light" routerLink="/login">Logout <i class="bi bi-box-arrow-right"></i></a>
+    </div>
+  </div>
+</nav>
+<div class="main">
+  <section class="jumbotron">
+    <div class="row">
+      <div class="col-md-6 mt-4" style="display: flex; justify-content: center; align-items: center;">
+        <img style="width: 200px; height: 300px;" [src]="movie_serie?.portada" alt="Card image cap">
+      </div>
+      <div class="col-md-6 mt-4">
+        <div class="container text-light">
+          <h1 class="display-3">{{movie_serie?.nombre}}</h1>
+          <p>{{movie_serie?.descripcion}}</p>
+          <div style="display: flex; justify-content: space-evenly;">
+            <div>
+              <p>Duración: <span>{{movie_serie?.duracion}}</span></p>
+            </div>
+            <div>
+              <p>Fecha estreno: <span>{{movie_serie?.fecha_estreno}}</span></p>
+            </div>
+            <div>
+              <p>Director: <span>{{movie_serie?.director}}</span></p>
+            </div>
+          </div>
+          <div class="pt-5">
+            <div class="form-check">
+              <button *ngIf="favorito_exists" (click)="addFav()" class="btn btn-danger">
+                <i class="bi bi-heart"></i></button>
+              <button *ngIf="!favorito_exists" (click)="addFav()" class="btn btn-secondary">
+                <i class="bi bi-heart"></i></button>
+              <label class="form-check-label" style="margin: 5px;" for="flexCheckDefault">
+                Agregar a favoritos
+              </label>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="row" style="display: flex;justify-content: center;">
+      <div class="col-md-6 mb-4" style="display: flex; justify-content: flex-end;">
+        <div style="padding-right: 15px;" *ngIf="awards.length > 0">
+          <h4 style="color: white;">Premios</h4>
+          <ul style="color: white;">
+            <li *ngFor="let p of awards">{{p.nombre}}</li>
+          </ul>
+        </div>
+        <div style="padding-right: 15px;" *ngIf="actors.length > 0">
+          <h4 style="color: white;">Actores</h4>
+          <ul style="color: white;">
+            <li *ngFor="let a of actors">{{a.nombre}}</li>
+          </ul>
+        </div>
+        <div style="padding-right: 15px;" *ngIf="categories.length > 0">
+          <h4 style="color: white;">Categorias</h4>
+          <ul style="color: white;">
+            <li *ngFor="let c of categories">{{c.nombre}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="album bg-light" style="background: #D5D5D5!important;">
+    <div class="container pt-5" style="padding: 0px;">
+      <div class="peli row">
+        <div class="col-md-12" *ngIf="movie_serie">
+          <youtube-player [width]="1320" [height]="722" [videoId]="id" (ready)="savePlayer($event)"
+            (change)="onStateChange($event)" [playerVars]="playerVars">
+          </youtube-player>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="album bg-light" style="background: #D5D5D5!important;">
+    <div class="container" style="padding: 0px;">
+      <div class="row">
+        <div class="mt-4 col-md-12" *ngIf="movie_serie">
+          <h3>Contenido relacionado</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3" *ngFor="let relate of related_movies">
+          <a href="movie-serie/{{relate.id}}">
+            <div class="card" style="background: #D5D5D5!important;">
+              <img style="width: 300px; height: 450px;" [src]="relate.portada" alt="Card image cap">
+              <div class="card-body">
+                <h4 class="card-text">{{relate.nombre}}</h4>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="text-muted" style="background: #D5D5D5!important;">
+  <div class="container">
+    <p>Espotifai &copy; Una plataforma en donde puedes disfrutar todo tu entretenimiento</p>
+    <p>New to Bootstrap? <a href="">Visita nuestras redes</a> or read our <a href="">Algun link</a>.</p>
+  </div>
+</footer>

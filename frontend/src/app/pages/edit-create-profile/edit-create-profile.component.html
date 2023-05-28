@@ -1,0 +1,37 @@
+<app-loading></app-loading>
+<div class="top bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <div class="title">{{title}} perfil</div>
+            </div>
+            <div class="col-4" style="text-align: right">
+                <button type="button" class="btn btn-link text-white" routerLink="/profiles"> ⇦ Volver</button>
+            </div>
+        </div>
+        <div class="content">
+            <div class="row">
+                <div class="col-md-4" *ngFor="let icon of icons; index as i" (click)="selectIcon(i);">
+                    <img src="../../../assets/{{icon.icon}}" [ngClass]="icon.class" width="150px" alt="">
+                </div>
+            </div>
+            <form (ngSubmit)="submit()" [formGroup]="profile_form">
+                <div class="user-details">
+                    <div class="input-box">
+                        <span class="details">Nombre</span>
+                        <input type="text" class="form-control" formControlName="nombre" placeholder="Ingresa su nombre"
+                            required>
+                            <div class="errors" *ngIf="nombre?.invalid && (nombre?.dirty || nombre?.touched)">
+                                <span *ngIf="nombre?.errors?.['required']">
+                                    <small>El nombre es requerido.</small>
+                                </span>
+                            </div>
+                    </div>
+                </div>
+                <div class="button">
+                    <button type="submit" [disabled]="!profile_form.valid && icon_selected != null">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

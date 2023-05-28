@@ -1,0 +1,103 @@
+<app-loading></app-loading>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand">
+            <img src="../../../assets/logo_color.png" alt="" width="30" height="24"
+                class="d-inline-block align-text-top">
+            Espotifai
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" routerLink="/admin/users">Usuarios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/films">Peliculas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/actors">Actores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/directors">Directores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/anuncios">Anuncios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/reports">Reportes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/simulation">Simulacion</a>
+                </li>
+            </ul>
+            <a class="nav-link text-light" routerLink="/login">Logout <i class="bi bi-box-arrow-right"></i></a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <p class="h1">{{title}} usuario</p>
+    <form (ngSubmit)="submit()" [formGroup]="actor_form">
+        <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" formControlName="nombre" class="form-control" aria-describedby="emailHelp"
+                placeholder="Nombre">
+            <div class="errors" *ngIf="nombre?.invalid && (nombre?.dirty || nombre?.touched)">
+                <span *ngIf="nombre?.errors?.['required']">
+                    <small>El nombre es requerido.</small>
+                </span>
+            </div><br>
+            <label>Email</label>
+            <input type="text" formControlName="email" class="form-control" aria-describedby="emailHelp"
+                placeholder="Email">
+            <div class="errors" *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+                <span *ngIf="email?.errors?.['required']">
+                    <small>El correo es requerido</small>
+                </span>
+                <span *ngIf="(email?.dirty || email?.touched) && email?.invalid && email?.errors?.['pattern']">
+                    <small>Ingrese un email válido.</small>
+                </span>
+            </div><br>
+            <ng-container *ngIf="!id">
+                <label>Contraseña</label>
+                <input type="password" formControlName="password" class="form-control" aria-describedby="emailHelp"
+                    placeholder="Contraseña">
+                <div class="errors" *ngIf="password?.invalid && (password?.dirty || password?.touched)">
+                    <span *ngIf="password?.errors?.['minlength']">
+                        <small>La contraseña debe tener al menos 6 caracteres.</small>
+                    </span>
+                    <span *ngIf="password?.errors?.['required']">
+                        <small>Este campo es requerido.</small>
+                    </span>
+                </div><br>
+                <label>Confirmar contraseña</label>
+                <input type="password" formControlName="password_confirmation" class="form-control"
+                    aria-describedby="emailHelp" placeholder="Confirmar contraseña">
+                <div class="errors"
+                    *ngIf="password_confirmation?.invalid && (password_confirmation?.dirty || password_confirmation?.touched)">
+                    <span *ngIf="password_confirmation?.errors?.['minlength']">
+                        <small>La contraseña debe tener al menos 6 caracteres.</small>
+                    </span>
+                    <span *ngIf="password_confirmation?.errors?.['required']">
+                        <small>Este campo es requerido.</small>
+                    </span>
+                </div><br>
+            </ng-container>
+            <div class="form-check form-switch">
+                <input class="form-check-input" formControlName="tipo" type="checkbox" id="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Dar permisos de administrador</label>
+            </div>
+            <div class="errors" *ngIf="tipo?.invalid && (tipo?.dirty || tipo?.touched)">
+                <span *ngIf="tipo?.errors?.['required']">
+                    <small>El tipo es requerido.</small>
+                </span>
+            </div>
+        </div><br>
+        <button type="button" routerLink="/admin/users" class="btn btn-secondary m-1">Regresar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!actor_form.valid">Guardar</button>
+    </form>
+</div>
