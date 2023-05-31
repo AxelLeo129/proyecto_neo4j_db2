@@ -7,8 +7,6 @@ import networkx as nx
 uri = "neo4j+s://5594cb00.databases.neo4j.io"
 username = "neo4j"
 password = "tUBHO1gPQoDRTvF7l8iyrTB1dTrrjU5ZMI1idIKCSmY"
-
-# Create a Neo4j driver
 driver = GraphDatabase.driver(uri, auth=(username, password))
 
 def random_date(start, end):
@@ -23,8 +21,6 @@ def random_date(start, end):
 # Function to create the "LIKED" relationship for a given user, profile, and movie
 def create_liked_relationship(user, profile, movie):
     with driver.session() as session:
-        # Find the user node
-        
         query = """
             MATCH (u:User {email: $user})
             WITH u
@@ -38,7 +34,6 @@ def create_liked_relationship(user, profile, movie):
         
 def create_disliked_relationship(user, profile, movie):
     with driver.session() as session:
-        # Find the user node
         query = """
             MATCH (u:User {email: $user})
             WITH u
@@ -254,90 +249,32 @@ def create_graph():
         # Add the relationship to the NetworkX graph
         networkx_graph.add_edge(start_node_id, end_node_id, type=relationship_type, **relationship_properties)
     
-    # Print some information about the NetworkX graph
     print(f"Number of nodes: {networkx_graph.number_of_nodes()}")
     print(f"Number of edges: {networkx_graph.number_of_edges()}")
     
     return networkx_graph
-    # You can now use the NetworkX graph for analysis or visualization
-    # For example, you can compute centrality measures, perform graph algorithms, etc.
 
-#List of profiles
-profiles = [
-    {"name": "Oliver", "user": "john.doe@gmail.com"},
-    {"name": "Emma", "user": "john.doe@gmail.com"},
-    {"name": "Liam", "user": "john.doe@gmail.com"},
-    {"name": "Ava", "user": "jane.smith@hotmail.com"},
-    {"name": "Noah", "user": "jane.smith@hotmail.com"},
-    {"name": "Sophia", "user": "jane.smith@hotmail.com"},
-    {"name": "William", "user": "alex.wilson@gmail.com"},
-    {"name": "Charlotte", "user": "alex.wilson@gmail.com"},
-    {"name": "James", "user": "emily.brown@outlook.com"},
-    {"name": "Olivia", "user": "emily.brown@outlook.com"},
-    {"name": "Benjamin", "user": "emily.brown@outlook.com"},
-    {"name": "Isabella", "user": "michael.li@gmail.com"},
-    {"name": "Elijah", "user": "michael.li@gmail.com"}
-]
-
-profile_ids = get_profile_ids()
-
-# List of movies
-movies = [
-    "The Matrix", "The Matrix Reloaded", "The Matrix Revolutions", "The Devil's Advocate", "A Few Good Men",
-    "Top Gun", "Jerry Maguire", "Stand By Me", "As Good as It Gets", "What Dreams May Come", "Snow Falling on Cedars",
-    "You've Got Mail", "Sleepless in Seattle", "Joe Versus the Volcano", "When Harry Met Sally", "That Thing You Do",
-    "The Replacements", "RescueDawn", "The Birdcage", "Unforgiven", "Johnny Mnemonic", "Cloud Atlas",
-    "The Da Vinci Code", "V for Vendetta", "Speed Racer", "Ninja Assassin", "The Green Mile", "Frost/Nixon",
-    "Hoffa", "Apollo 13", "Twister", "Cast Away", "One Flew Over the Cuckoo's Nest", "Something's Gotta Give",
-    "Bicentennial Man", "Charlie Wilson's War", "The Polar Express", "A League of Their Own"
-]
-
-movie_ids = get_movie_ids()
-
-#List of persons
-persons = [
-    "Keanu Reeves", "Carrie-Anne Moss", "Laurence Fishburne", "Hugo Weaving", "Lilly Wachowski", "Lana Wachowski",
-    "Emil Eifrem", "Charlize Theron", "Al Pacino", "Taylor Hackford", "Tom Cruise", "Jack Nicholson", "Demi Moore",
-    "Kevin Bacon", "Kiefer Sutherland", "Noah Wyle", "Cuba Gooding Jr.", "Kevin Pollak", "J.T. Walsh",
-    "James Marshall", "Christopher Guest", "Rob Reiner", "Aaron Sorkin", "Kelly McGillis", "Val Kilmer",
-    "Anthony Edwards", "Tom Skerritt", "Meg Ryan", "Tony Scott", "Renee Zellweger", "Kelly Preston", "Jerry O'Connell",
-    "Jay Mohr", "Bonnie Hunt", "Regina King", "Jonathan Lipnicki", "Cameron Crowe", "River Phoenix", "Corey Feldman",
-    "Wil Wheaton", "John Cusack", "Marshall Bell", "Helen Hunt", "Greg Kinnear", "James L. Brooks",
-    "Annabella Sciorra", "Max von Sydow", "Werner Herzog", "Robin Williams", "Vincent Ward", "Ethan Hawke",
-    "Rick Yune", "James Cromwell", "Scott Hicks", "Parker Posey", "Dave Chappelle", "Steve Zahn", "Tom Hanks",
-    "Nora Ephron", "Rita Wilson", "Bill Pullman", "Victor Garber", "Rosie O'Donnell", "John Patrick Stanley",
-    "Nathan Lane", "Billy Crystal", "Carrie Fisher", "Bruno Kirby", "Liv Tyler", "Brooke Langton", "Gene Hackman",
-    "Orlando Jones", "Howard Deutch", "Christian Bale", "Zach Grenier", "Mike Nichols", "Richard Harris",
-    "Clint Eastwood", "Takeshi Kitano", "Dina Meyer", "Ice-T", "Robert Longo", "Halle Berry", "Jim Broadbent",
-    "Tom Tykwer", "Ian McKellen", "Audrey Tautou", "Paul Bettany", "Ron Howard", "Natalie Portman", "Stephen Rea",
-    "John Hurt", "Ben Miles", "Emile Hirsch", "John Goodman", "Susan Sarandon", "Matthew Fox", "Christina Ricci",
-    "Rain", "Naomie Harris", "Michael Clarke Duncan", "David Morse", "Sam Rockwell", "Gary Sinise",
-    "Patricia Clarkson", "Frank Darabont", "Frank Langella", "Michael Sheen", "Oliver Platt", "Danny DeVito",
-    "John C. Reilly", "Ed Harris", "Bill Paxton", "Philip Seymour Hoffman", "Jan de Bont", "Robert Zemeckis",
-    "Milos Forman", "Diane Keaton", "Nancy Meyers", "Chris Columbus", "Julia Roberts", "Madonna", "Geena Davis",
-    "Lori Petty", "Penny Marshall"
-]
-
-G = create_graph()
-
-for profile_id in profile_ids:
-    pairs = []
-    for movie_id in movie_ids:
-        pairs.append((profile_id, movie_id))
-    jacard_scores = nx.jaccard_coefficient(G, pairs)
-    scores = []
-    for i in range(len(pairs)):
-        try:
-            scores.append(next(jacard_scores))
-            print(scores[i])
-        except:
-            scores.append((profile_id, movie_ids[i], 0))
-        
-    scores.sort(key=lambda x: x[2], reverse=True)
-    top_scores = scores[:10]
-    set_recommendations(profile_id, [x[1] for x in top_scores])
+def create_recommendations():
+    profile_ids = get_profile_ids()
     
+    movie_ids = get_movie_ids()
     
+    G = create_graph()
     
-        
+    for profile_id in profile_ids:
+        pairs = []
+        for movie_id in movie_ids:
+            pairs.append((profile_id, movie_id))
+        jacard_scores = nx.jaccard_coefficient(G, pairs)
+        scores = []
+        for i in range(len(pairs)):
+            try:
+                scores.append(next(jacard_scores))
+                print(scores[i])
+            except:
+                scores.append((profile_id, movie_ids[i], 0))
+            
+        scores.sort(key=lambda x: x[2], reverse=True)
+        top_scores = scores[:10]
+        set_recommendations(profile_id, [x[1] for x in top_scores])
         
