@@ -33,7 +33,7 @@ def create_user(user):
     with driver.session() as session:
         query = """
             CREATE (:User {email: $email, password: $password,
-                           name: $name, type=$client, active=True})
+                           name: $name, type: $client, active: True})
         """
         session.run(query, email=user["email"], password=user["password"],
                     name=user["name"], client=user["type"])
