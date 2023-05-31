@@ -87,18 +87,18 @@ def get_profile_id(user_id, name):
 def create_profile(profile):
     with driver.session() as session:
         query = """
-            CREATE (:Profile {name: $name})
+            CREATE (:Profile {name: $name, icon: $icon})
         """
-        session.run(query, name=profile["name"])
+        session.run(query, name=profile["name"], icon=profile["icon"])
 
 def update_profile(profile_id, profile):
     with driver.session() as session:
         query = """
             MATCH (p:Profile)
             WHERE ID(p) = $profile_id
-            SET p.name = $name, p.recommendations = $recommendations
+            SET p.name = $name, p.icon = $icon, p.recommendations = $recommendations
         """
-        session.run(query, profile_id=profile_id, name=profile["name"],
+        session.run(query, profile_id=profile_id, name=profile["name"], icon=profile["icon"],
                     recommendations=profile["recommendations"])
 
 def delete_profile(profile_id):
