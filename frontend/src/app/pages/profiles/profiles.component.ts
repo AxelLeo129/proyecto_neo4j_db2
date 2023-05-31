@@ -10,7 +10,6 @@ import { GeneralService } from 'src/app/services/general.service';
 })
 export class ProfilesComponent implements OnInit {
   public profiles: Array<any> = [];
-  public subscription: any;
 
   constructor(
     private general_service: GeneralService,
@@ -25,8 +24,7 @@ export class ProfilesComponent implements OnInit {
 
   getProfiles() {
     this.general_service.getAuth('user-profiles').then((res) => {
-      this.profiles = res.profiles;
-      this.subscription = res.subscription;
+      this.profiles = res;
       this.spinner.hide();
     });
   }

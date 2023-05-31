@@ -31,21 +31,8 @@ export class RegisterComponent implements OnInit {
         Validators.required,
         Validators.minLength(6),
       ]),
-      nombre: new FormControl('', [Validators.required]),
-      tipo_suscripcion: new FormControl('', [Validators.required]),
+      nombre: new FormControl('', [Validators.required])
     });
-  }
-
-  formatDate(date: Date) {
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    return (
-      date.getFullYear() +
-      '/' +
-      (month.toString().length == 1 ? '0' + month : month) +
-      '/' +
-      (day.toString().length == 1 ? '0' + day : day)
-    );
   }
 
   register() {
@@ -53,9 +40,7 @@ export class RegisterComponent implements OnInit {
     let fecha_caducidad = new Date();
     fecha_caducidad.setMonth(new Date().getMonth() + 1);
     const data = Object.assign(this.register_form.value, {
-      tipo: 'client',
-      fecha_inicio: this.formatDate(new Date()),
-      fecha_caducidad: this.formatDate(fecha_caducidad),
+      tipo: 'client'
     });
     this.general_service.post('register', data).then((res) => {
       this.spinner.hide();
@@ -73,9 +58,7 @@ export class RegisterComponent implements OnInit {
       this.spinner.hide();
       console.log(err);
       let errores = "";
-      err.error.errors.forEach((element: string) => {
-        errores += element + " ";
-      });
+      errores = err.message;
       Swal.fire({
         icon: 'error',
         title: '¡Atención!',

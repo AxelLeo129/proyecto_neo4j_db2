@@ -20,8 +20,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="profile col-sm"
-					*ngIf="(subscription.tipo == 'gratis' && profiles.length == 0) || (subscription.tipo == '4' && profiles.length < 4) || (subscription.tipo == '8' && profiles.length < 8)">
+				<div class="profile col-sm">
 					<a routerLink="/edit-create-profile"><img src="../../../assets/add.png"></a>
 					<p>Agregar Perfil</p>
 				</div>

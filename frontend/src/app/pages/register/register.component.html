@@ -64,33 +64,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="profile-details">
-                    <input type="radio" formControlName="tipo_suscripcion" value="gratis" name="tipo_suscripcion"
-                        id="dot-1">
-                    <input type="radio" formControlName="tipo_suscripcion" value="4" name="tipo_suscripcion" id="dot-2">
-                    <input type="radio" formControlName="tipo_suscripcion" value="8" name="tipo_suscripcion" id="dot-3">
-                    <span class="profile-title">Seleccione su plan</span>
-                    <div class="category">
-                        <label for="dot-1">
-                            <span class="dot one"></span>
-                            <span class="gender">Gratis</span>
-                        </label>
-                        <label for="dot-2">
-                            <span class="dot two"></span>
-                            <span class="gender">4 perfiles</span>
-                        </label>
-                        <label for="dot-3">
-                            <span class="dot three"></span>
-                            <span class="gender">8 perfiles</span>
-                        </label>
-                    </div>
-                    <div class="errors"
-                        *ngIf="tipo_suscripcion?.invalid && (tipo_suscripcion?.dirty || tipo_suscripcion?.touched)">
-                        <span *ngIf="tipo_suscripcion?.errors?.['required']">
-                            <small>El suscripción es requerido.</small>
-                        </span>
-                    </div>
-                </div>
                 <div class="button">
                     <button type="submit" [disabled]="!register_form.valid">Registrar</button>
                 </div>
