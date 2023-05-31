@@ -29,7 +29,6 @@ def create_liked_relationship(user, profile, movie):
             MATCH (m:Movie {title: $movie})
             CREATE (p)-[:LIKED]->(m)
             """
-        
         session.run(query, user=user, profile=profile, movie=movie)
         
 def create_disliked_relationship(user, profile, movie):
