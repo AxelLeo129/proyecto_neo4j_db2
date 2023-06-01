@@ -100,7 +100,7 @@ def create_profile(user_id, profile):
     with driver.session() as session:
         query = """
             MATCH (u:User) WHERE id(u) = $user_id 
-            CREATE (:Profile {name: $name, icon: $icon})
+            CREATE (p:Profile {name: $name, icon: $icon})
             CREATE (u)-[:OWNS]->(p)
         """
         session.run(query, user_id=user_id, name=profile["name"], icon=profile["icon"])
