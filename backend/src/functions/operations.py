@@ -40,6 +40,7 @@ def create_user(user):
         session.run(query, email=user["email"], password=user["password"],
                     name=user["name"], client=user["type"])
     create_profile({"name": user["name"], 'icon': 'profile1.png'})
+    return read_user(user["id"]), get_user_profiles(user["id"])
         
 def update_user(user_id, user):
     with driver.session() as session:
@@ -68,30 +69,33 @@ def read_user(user_id):
             WHERE ID(u) = $user_id
             RETURN u
         """
-        result = session.run(query, user_id=user_id)
-        return dict(result.single()["u"])
+        result = session.run(query, user_id=user_id).single()
+        user = dict(result["u"])
+        user["id"] = result["u"].id
+        
+        return user
 
 #Profile
 
-def get_profile_id(user_id, name):
+def get_user_profiles(user_id):
     with driver.session() as session:
         query = """
             MATCH (u:User)-[:OWNS]->(p:Profile)
-            WHERE ID(u) = $user_id AND p.name = $name
-            RETURN ID(p) AS id
+            WHERE ID(u) = $user_id
+            RETURN p
         """
-        result = session.run(query, user_id=user_id, name=name)
-        try:
-            return result.single()['id']
-        except:
-            return "Incorrecto"
+        result = session.run(query, user_id=user_id)
+        return result_to_list(result)
 
-def create_profile(profile):
+def create_profile(user_id, profile):
     with driver.session() as session:
         query = """
+            MATCH (u:User) WHERE id(u) = $user_id 
             CREATE (:Profile {name: $name, icon: $icon})
+            CREATE (u)-[:OWNS]->(p)
         """
-        session.run(query, name=profile["name"], icon=profile["icon"])
+        session.run(query, user_id=user_id, name=profile["name"], icon=profile["icon"])
+        return get_user_profiles(user_id)
 
 def update_profile(profile_id, profile):
     with driver.session() as session:
@@ -120,7 +124,10 @@ def read_profile(profile_id):
             RETURN p
         """
         result = session.run(query, profile_id=profile_id)
-        return dict(result.single()["p"])
+        profile = dict(result["p"])
+        profile["id"] = result["p"].id
+        
+        return profile
 
 def get_recommendations(profile_id):
     with driver.session() as session:
