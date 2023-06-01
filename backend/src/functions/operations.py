@@ -1,5 +1,11 @@
 from datetime import datetime
-from main import driver
+#from main import driver
+from neo4j import GraphDatabase
+
+uri = "neo4j+s://5594cb00.databases.neo4j.io"
+username = "neo4j"
+password = "tUBHO1gPQoDRTvF7l8iyrTB1dTrrjU5ZMI1idIKCSmY"
+driver = GraphDatabase.driver(uri, auth=(username, password))
 
 def result_to_list(result):
     nodes = []
@@ -16,13 +22,16 @@ def get_user_id(user):
         query = """
             MATCH (u:User)
             WHERE u.email = $email AND u.password = $password 
-            RETURN ID(u) as id
+            RETURN u
         """
-        result = session.run(query, email=user["email"], password=user["password"])
         try:
-            return result.single()['id']
+            result = session.run(query, email=user["email"], password=user["password"]).single()
+            user = dict(result["u"])
+            user["id"] = result["u"].id
+            profiles = get_user_profiles(user["id"])
+            return user, profiles
         except:
-            return "Incorrecto"
+            return {'found': False}
 
 
 def create_user(user):
