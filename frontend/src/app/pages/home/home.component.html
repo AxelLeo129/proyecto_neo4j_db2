@@ -100,16 +100,16 @@
         <h3>Peliculas & Series</h3>
         <div class="col-md-4" *ngFor="let movie_serie of movies_series">
           <div class="card mb-4 box-shadow">
-            <img class="card-img-top" style="width: 400px; height: 600px;" [src]="movie_serie.portada"
+            <img class="card-img-top" style="width: 400px; height: 600px;" [src]="movie_serie.cover"
               alt="Card image cap">
             <div class="card-body">
-              <p class="card-text">{{movie_serie.descripcion | slice:0:197}}...</p>
+              <p class="card-text">{{movie_serie.tagline | slice:0:197}}...</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <button (click)="show(movie_serie.id)" type="button"
                     class="btn btn-sm btn-outline-secondary">Ver</button>
                 </div>
-                <small class="text-muted">{{movie_serie.duracion}}</small>
+                <small class="text-muted">{{movie_serie.year}}</small>
               </div>
             </div>
           </div>
