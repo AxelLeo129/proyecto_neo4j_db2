@@ -1,10 +1,17 @@
 from datetime import datetime
-from main import driver
+from neo4j import GraphDatabase
+#from main import driver
+
+uri = "neo4j+s://5594cb00.databases.neo4j.io"
+username = "neo4j"
+password = "tUBHO1gPQoDRTvF7l8iyrTB1dTrrjU5ZMI1idIKCSmY"
+driver = GraphDatabase.driver(uri, auth=(username, password))
 
 def result_to_list(result):
     nodes = []
     for record in result:
         node_dict = dict(record.value().items())
+        node_dict["id"] = record.value().id
         nodes.append(node_dict)
     return nodes
 
@@ -115,7 +122,29 @@ def read_profile(profile_id):
         result = session.run(query, profile_id=profile_id)
         return dict(result.single()["p"])
 
+def get_recommendations(profile_id):
+    with driver.session() as session:
+        query = """
+            MATCH (p:Profile)
+            WHERE ID(p) = $profile_id
+            RETURN p.recommendations as r
+        """
+        result = session.run(query, profile_id=profile_id)
+        movie_ids = result.single()["r"]
+    
+    return read_movies(movie_ids)
+
 #Movie
+
+def read_movies(movie_ids):
+    with driver.session() as session:
+        query = """
+            MATCH (m:Movie)
+            WHERE ID(m) IN $movie_ids
+            RETURN m
+        """
+        result = session.run(query, movie_ids=movie_ids)
+        return result_to_list(result)
 
 def get_all_movies():
     with driver.session() as session:
