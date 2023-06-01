@@ -23,6 +23,7 @@ export class EditCreateProfileComponent implements OnInit {
     { icon: 'profile8.png', class: '' },
     { icon: 'profile9.png', class: '' },
   ];
+  recomendaciones: any;
   public icon_selected: any = null;
   public id: string = '';
   public title: string = 'Crear';
@@ -56,6 +57,7 @@ export class EditCreateProfileComponent implements OnInit {
       const res: any = profiles.find((e: any) => e.id == this.id);
       this.profile_form.patchValue({ nombre: res.name });
       const index = this.icons.findIndex((e) => (e.icon == res.icon));
+      this.recomendaciones = res.recommendations;
       this.selectIcon(index);
   }
 
@@ -73,10 +75,12 @@ export class EditCreateProfileComponent implements OnInit {
     });
     console.log(data);
     if (this.id) {
+      data.recommendations = this.recomendaciones;
+      console.log(data);
       this.general_service
-        .putAuth('profile/' + this.id, data)
+        .putAuth('update-profile/' + this.id, data)
         .then((res) => {
-          this.spinner.hide();
+          this.spinner.hide(); 
           Swal.fire({
             icon: 'success',
             title: res.message,

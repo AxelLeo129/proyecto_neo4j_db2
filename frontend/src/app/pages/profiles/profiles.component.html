@@ -13,8 +13,16 @@
 			<div class="row">
 				<div class="profile col-sm" *ngFor="let profile of profiles">
 					<div style="display: flex; flex-direction: column; align-items: center;">
-						<img (click)="editProfile(profile.id)" src="../../../assets/edit.jpg"
-							style="width: 25px; height: 25px;" alt="">
+						<div class="row">
+							<div class="col-6">
+								<img (click)="deleteProfile(profile.id)" src="../../../assets/delete.png"
+								style="width: 25px; height: 25px;" alt="">	
+							</div>
+							<div class="col-6">
+								<img (click)="editProfile(profile.id)" src="../../../assets/edit.jpg"
+								style="width: 25px; height: 25px;" alt="">
+							</div>
+						</div>
 						<div (click)="selectProfile(profile.id)"><img src="../../../assets/{{profile.icon}}">
 							<p>{{profile.nombre}}</p>
 						</div>

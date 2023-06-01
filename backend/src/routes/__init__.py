@@ -61,19 +61,19 @@ def get_one_profile_route(profile_id):
     user = read_profile(profile_id)
     return jsonify(user)
 
-@app.route('/delete-profile/<string:profile_id>', methods=['DELETE'])
-def delete_profile_route(profile_id):
-    delete_profile(profile_id)
-    return jsonify({"message": "Profile deleted success."})
+@app.route('/delete-profile/<string:profile_id>/<string:user_id>', methods=['DELETE'])
+def delete_profile_route(profile_id, user_id):
+    response = delete_profile(int(user_id), int(profile_id))
+    return jsonify(response)
 
 @app.route('/update-profile/<string:profile_id>', methods=['PUT'])
 def update_profile_route(profile_id):
     profile = {
         "name": request.json['nombre'],
         "icon": request.json['icon'],
-        "recomendations": request.json['icon'],
+        "recommendations": request.json['recommendations'],
     }
-    response = update_profile(profile_id=profile_id, profile=profile)
+    response = update_profile(int(request.json['user']), int(profile_id), profile)
     return jsonify(response)
 
 @app.route('/create-profile', methods=['POST'])

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GeneralService } from 'src/app/services/general.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profiles',
@@ -30,6 +31,22 @@ export class ProfilesComponent implements OnInit {
 
   editProfile(id: number) {
     this.router.navigate(['/edit-create-profile/' + id]);
+  }
+
+  deleteProfile(id: number) {
+    Swal.fire({
+      icon: 'question',
+      title: "¿Está seguro de eliminar esta aplicación?",
+      confirmButtonText: 'Aceptar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.general_service.deleteAuth('delete-profile/' + id + "/" + localStorage.getItem('user_id'))
+        .then((res) => {
+          localStorage.setItem('profiles', JSON.stringify(res));
+          this.getProfiles();
+        });
+      }
+    });
   }
 
   selectProfile(id: string) {
