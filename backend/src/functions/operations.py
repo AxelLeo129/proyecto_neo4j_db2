@@ -109,7 +109,7 @@ def create_profile(user_id, profile):
                     recommendations=recommendations)
     return get_user_profiles(user_id)
 
-def update_profile(profile_id, profile):
+def update_profile(user_id, profile_id, profile):
     with driver.session() as session:
         query = """
             MATCH (p:Profile)
@@ -118,8 +118,9 @@ def update_profile(profile_id, profile):
         """
         session.run(query, profile_id=profile_id, name=profile["name"], icon=profile["icon"],
                     recommendations=profile["recommendations"])
+    return get_user_profiles(user_id)
 
-def delete_profile(profile_id):
+def delete_profile(user_id, profile_id):
     with driver.session() as session:
         query = """
             MATCH (p:Profile)
@@ -127,6 +128,7 @@ def delete_profile(profile_id):
             DETACH DELETE p
         """
         session.run(query, profile_id=profile_id)
+    return get_user_profiles(user_id)
 
 def read_profile(profile_id):
     with driver.session() as session:
