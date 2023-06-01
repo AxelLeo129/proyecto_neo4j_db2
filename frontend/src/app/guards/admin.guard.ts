@@ -11,8 +11,8 @@ export class AdminGuard implements CanActivate {
   async canActivate() {
     const auth = localStorage.getItem('token');
     if(auth) {
-      const type = await this.general_service.getAuth('verify-type');
-      if(type.data == 'admin')
+      const type = localStorage.getItem('type');
+      if(type == 'admin')
         return true;
       else {
         this.router.navigate(['profiles']); 

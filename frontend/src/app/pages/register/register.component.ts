@@ -51,6 +51,7 @@ export class RegisterComponent implements OnInit {
       }).then(result => {
         if(result.isConfirmed) {
           localStorage.setItem('token', res.access_token);
+          localStorage.setItem('type', res.user.type);
           this.router.navigate(['/profiles']);
         }
       })

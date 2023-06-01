@@ -32,7 +32,7 @@ def create_user(user):
         """
         session.run(query, email=user["email"], password=user["password"],
                     name=user["name"], client=user["type"])
-    create_profile({"name": user["name"]})
+    create_profile({"name": user["name"], 'icon': 'profile1.png'})
         
 def update_user(user_id, user):
     with driver.session() as session:

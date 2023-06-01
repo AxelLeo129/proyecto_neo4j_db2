@@ -10,14 +10,13 @@ export class ClientGuard implements CanActivate {
   async canActivate() {
     const auth = localStorage.getItem('token');
     if(auth) {
-      //const type = await this.general_service.getAuth('verify-type');
-      // if(type.data == 'client')
-      //   return true;
-      // else {
-      //   this.router.navigate(['admin/users']); 
-      //   return false; 
-      // }
-      return true;
+      const type = localStorage.getItem('type');
+      if(type == 'client')
+        return true;
+      else {
+        this.router.navigate(['admin/users']); 
+        return false; 
+      }
     } else {
       this.router.navigate(['login']);
       return false;
