@@ -82,7 +82,7 @@ def create_profile_route():
         "name": request.json['nombre'],
         "icon": request.json['icon']
     }
-    response = create_profile(profile)
+    response = create_profile(int(request.json['user']), profile)
     return jsonify(response)
 
 @app.route('/get-profile/<string:user_id>/<string:name>', methods=['GET'])
@@ -128,7 +128,7 @@ def register():
         "password": request.json['password'],
         "type": request.json["tipo"]
     }
-    create_user(user=user)
+    user = create_user(user=user)
     return jsonify(user)
 
 @app.route('/user-profiles', methods=['GET'])

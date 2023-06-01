@@ -49,7 +49,7 @@ def create_user(user):
         
     profiles = create_profile(user["id"], {"name": user["name"], 'icon': 'profile1.png'})
     
-    return user, profiles
+    return {"user": user, "profiles": profiles}
         
 def update_user(user_id, user):
     with driver.session() as session:
@@ -107,8 +107,7 @@ def create_profile(user_id, profile):
         recommendations = [item["id"] for item in movies]
         session.run(query, user_id=user_id, name=profile["name"], icon=profile["icon"], 
                     recommendations=recommendations)
-        print(user_id)
-        return get_user_profiles(user_id)
+    return get_user_profiles(user_id)
 
 def update_profile(profile_id, profile):
     with driver.session() as session:

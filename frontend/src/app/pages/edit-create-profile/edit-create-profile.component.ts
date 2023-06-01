@@ -51,11 +51,12 @@ export class EditCreateProfileComponent implements OnInit {
   }
 
   editFormGroup() {
-    this.general_service.getAuth('profile/' + this.id).then((res) => {
-      this.profile_form.patchValue({ nombre: res.data.nombre });
-      const index = this.icons.findIndex((e) => (e.icon == res.data.icon));
+      const as: any = localStorage.getItem('profiles');
+      const profiles: any = JSON.parse(as);
+      const res: any = profiles.find((e: any) => e.id == this.id);
+      this.profile_form.patchValue({ nombre: res.name });
+      const index = this.icons.findIndex((e) => (e.icon == res.icon));
       this.selectIcon(index);
-    });
   }
 
   selectIcon(index: number): void {
@@ -68,6 +69,7 @@ export class EditCreateProfileComponent implements OnInit {
     this.spinner.show();
     const data = Object.assign(this.profile_form.value, {
       icon: this.icon_selected,
+      user: localStorage.getItem('user_id')
     });
     console.log(data);
     if (this.id) {
@@ -81,6 +83,7 @@ export class EditCreateProfileComponent implements OnInit {
             confirmButtonText: 'Aceptar',
           }).then((result) => {
             if (result.isConfirmed) {
+              localStorage.setItem('profiles', JSON.stringify(res))
               this.router.navigate(['/profiles']);
             }
           });
@@ -98,7 +101,7 @@ export class EditCreateProfileComponent implements OnInit {
         });
     } else {
       this.general_service
-        .postAuth('profile', data)
+        .postAuth('create-profile', data)
         .then((res) => {
           this.spinner.hide();
           Swal.fire({
@@ -107,6 +110,7 @@ export class EditCreateProfileComponent implements OnInit {
             confirmButtonText: 'Aceptar',
           }).then((result) => {
             if (result.isConfirmed) {
+              localStorage.setItem('profiles', JSON.stringify(res))
               this.router.navigate(['/profiles']);
             }
           });
