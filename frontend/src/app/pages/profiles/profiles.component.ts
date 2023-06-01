@@ -23,10 +23,9 @@ export class ProfilesComponent implements OnInit {
   }
 
   getProfiles() {
-    this.general_service.getAuth('user-profiles').then((res) => {
-      this.profiles = res;
+      const profilesString: any = localStorage.getItem('profiles');
+      this.profiles = JSON.parse(profilesString);
       this.spinner.hide();
-    });
   }
 
   editProfile(id: number) {

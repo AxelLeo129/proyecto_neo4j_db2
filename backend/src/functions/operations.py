@@ -104,7 +104,7 @@ def create_profile(user_id, profile):
             CREATE (u)-[:OWNS]->(p)
         """
         session.run(query, user_id=user_id, name=profile["name"], icon=profile["icon"])
-        return get_user_profiles(user_id)
+    return get_user_profiles(user_id)
 
 def update_profile(profile_id, profile):
     with driver.session() as session:
