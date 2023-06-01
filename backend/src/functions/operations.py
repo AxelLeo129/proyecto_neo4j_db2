@@ -1,11 +1,5 @@
 from datetime import datetime
-from neo4j import GraphDatabase
-#from main import driver
-
-uri = "neo4j+s://5594cb00.databases.neo4j.io"
-username = "neo4j"
-password = "tUBHO1gPQoDRTvF7l8iyrTB1dTrrjU5ZMI1idIKCSmY"
-driver = GraphDatabase.driver(uri, auth=(username, password))
+from main import driver
 
 def result_to_list(result):
     nodes = []
