@@ -46,12 +46,13 @@ export class RegisterComponent implements OnInit {
       this.spinner.hide();
       Swal.fire({
         icon: 'success',
-        title: res.message,
+        title: "Registro exitoso",
         confirmButtonText: 'Aceptar'
       }).then(result => {
         if(result.isConfirmed) {
-          localStorage.setItem('token', res.access_token);
+          localStorage.setItem('token', 'true');
           localStorage.setItem('type', res.user.type);
+          localStorage.setItem('profiles', JSON.stringify(res.profiles));
           this.router.navigate(['/profiles']);
         }
       })

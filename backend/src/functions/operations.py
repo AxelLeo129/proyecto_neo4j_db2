@@ -49,7 +49,7 @@ def create_user(user):
         
     profiles = create_profile(user["id"], {"name": user["name"], 'icon': 'profile1.png'})
     
-    return user, profiles
+    return {"user": user, "profiles": profiles}
         
 def update_user(user_id, user):
     with driver.session() as session:

@@ -128,7 +128,7 @@ def register():
         "password": request.json['password'],
         "type": request.json["tipo"]
     }
-    create_user(user=user)
+    user = create_user(user=user)
     return jsonify(user)
 
 @app.route('/user-profiles', methods=['GET'])
