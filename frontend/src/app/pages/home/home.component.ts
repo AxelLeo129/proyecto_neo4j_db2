@@ -69,7 +69,7 @@ export class HomeComponent implements OnInit {
     this.tipo = tipo;
     this.id = id;
     const search_value = this.search_form.value.search ? this.search_form.value.search : '-';
-    let url = 'filter-movie-serie/' + search_value + '/' + tipo + '/' + id;
+    let url = 'movies-all';
     if(search_value.split(" ").length>1){
       search_value.split(" ").forEach((word: any) => {
           this.general_service.getAuth(`new-search/${word}`).then(res => {
@@ -79,7 +79,7 @@ export class HomeComponent implements OnInit {
     this.general_service.getAuth(`new-search/${search_value}`).then(res => {
     }) 
     this.general_service.getAuth(url).then((res) => {
-      this.movies_series = res.data;
+      this.movies_series = res;
       this.spinner.hide();
     });
   }
