@@ -100,10 +100,14 @@ def create_profile(user_id, profile):
     with driver.session() as session:
         query = """
             MATCH (u:User) WHERE id(u) = $user_id 
-            CREATE (p:Profile {name: $name, icon: $icon})
+            CREATE (p:Profile {name: $name, icon: $icon, recommendations: $recommendations})
             CREATE (u)-[:OWNS]->(p)
         """
-        session.run(query, user_id=user_id, name=profile["name"], icon=profile["icon"])
+        movies = get_10_movies()
+        recommendations = [item["id"] for item in movies]
+        session.run(query, user_id=user_id, name=profile["name"], icon=profile["icon"], 
+                    recommendations=recommendations)
+        print(user_id)
         return get_user_profiles(user_id)
 
 def update_profile(profile_id, profile):
@@ -167,6 +171,16 @@ def get_all_movies():
         query = """
             MATCH (m:Movie)
             RETURN m
+        """
+        result = session.run(query)
+        return result_to_list(result)
+    
+def get_10_movies():
+    with driver.session() as session:
+        query = """
+            MATCH (m:Movie)
+            RETURN m
+            LIMIT 10
         """
         result = session.run(query)
         return result_to_list(result)
