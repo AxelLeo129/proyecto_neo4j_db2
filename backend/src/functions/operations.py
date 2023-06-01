@@ -34,13 +34,19 @@ def get_user_id(user):
 def create_user(user):
     with driver.session() as session:
         query = """
-            CREATE (:User {email: $email, password: $password,
+            CREATE (u:User {email: $email, password: $password,
                            name: $name, type: $client, active: True})
+            RETURN u
         """
-        session.run(query, email=user["email"], password=user["password"],
-                    name=user["name"], client=user["type"])
-    create_profile({"name": user["name"], 'icon': 'profile1.png'})
-    return read_user(user["id"]), get_user_profiles(user["id"])
+        result = session.run(query, email=user["email"], password=user["password"],
+        name=user["name"], client=user["type"]).single()
+    
+    user = dict(result["u"])
+    user["id"] = result["u"].id
+        
+    profiles = create_profile(user["id"], {"name": user["name"], 'icon': 'profile1.png'})
+    
+    return user, profiles
         
 def update_user(user_id, user):
     with driver.session() as session:
